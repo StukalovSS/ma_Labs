@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Shteingaus`s algorithm</title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <div class="wrapper">
+            <!-- form -->
+            <h1>Ранжирование. Метод Штейнгауса.</h1>
+            <div id="alternativesPanel">
+
+            </div>
+            <div class="actionsPanel">
+                <a href="#" id="btnAddAlt" onclick="addAlternative()">Добавить альтернативу</a>
+                <a href="#" id="btnSolve" onclick="doRange()">Ранжировать</a>
+            </div>
+            <div class="resaultPanel">
+                <span>Результат:</span>
+                <span id="resultBox"></span>
+            </div>
+        </div>
+        <!-- question window -->
+        <div id="questionWindow" class="hide">
+            <div id="qPan">
+                <div id="a1" class="alternative"></div>
+                <div class="buttons">
+                    <a href="#" id="btnBetter" onclick="compBetter()">Лучше</a>
+                    <a href="#" id="bntNotBetter" onclick="compNotBetter()">Хуже</a>
+                </div>
+                <div id="a2" class="alternative"></div>
+                <div class="progressBar">
+                    <span>Этап</span>
+                    <span id="stepCurrent"></span>
+                    <span>из</span>
+                    <span id="stepTotal"></span>
+                </div>
+            </div>
+        </div>
+        <!-- main script -->
+        <script src="script.js"></script>
+    </body>
+</html>

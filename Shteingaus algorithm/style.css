@@ -1,0 +1,150 @@
+body {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    min-width: 800px;
+    background-color: #cccccc;
+}
+
+h1 {
+    display: block;
+    margin: 10px 30px;
+}
+
+a {
+    text-decoration: none;
+    display: inline-block;
+    padding: 5px 10px 7px 10px;
+    color: #ffffff;
+    border-radius: 5px;
+    background-color: #000000;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+/* MAIN CONTAINER */
+.wrapper {
+    z-index: 1;
+    width: 100%;
+    height: 100vh;
+    margin: 0px auto;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+.wrapper > div {
+    margin: 5px 30px;
+    padding: 5px;
+    background-color: #ffffff;
+    border-radius: 5px;
+    border-top: 2px solid #999999; 
+    border-left: 2px solid #999999; 
+    border-right: 2px solid #cccccc; 
+    border-bottom: 2px solid #dddddd; 
+}
+
+#alternativesPanel {
+    min-height: 20px;
+}
+
+#alternativesPanel > div {
+    background-color: #dedede;
+    padding: 5px;
+    border: 2px solid #ffffff;
+    border-radius: 5px;
+}
+
+#alternativesPanel > div > * {
+    margin: 0px 10px;
+}
+
+/* WINDOW */
+#questionWindow{
+    z-index: 2;
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    width: 100%;
+    background-color: #0000004b;
+}
+
+#questionWindow > div {
+    width: 50%;
+    height: 300px;
+    border-radius: 5px;
+    background-color: #ffffff;
+    position: relative;
+    left: 25%;
+    top: 25%;
+    padding: 10px 0px;
+}
+
+#questionWindow > div > div {
+    margin: 5px 30px;
+    padding: 15px;
+    text-align: center;
+}
+
+.alternative {
+    background-color: rgb(219, 216, 216);
+    border-radius: 5px;
+}
+
+.progressBar {
+    padding: 10px;
+    position: absolute;
+    bottom: 10px;
+    right: 20px;
+}
+
+.progressBar > span {
+    padding-right: 5px;
+}
+
+.hide{
+    display: none;
+}
+
+
+/* BUTTONS */
+#alternativesPanel a {
+    background-color: crimson;
+}
+
+#alternativesPanel a:hover {
+    background-color: rgb(255, 20, 80);
+}
+
+#btnAddAlt {
+    background-color: #1148ad;
+}
+
+#btnAddAlt:hover {
+    background-color: #0f58df;
+}
+
+#btnSolve {
+    background-color: #a37410;
+}
+
+#btnSolve:hover {
+    background-color: #c78d10;
+}
+
+#btnBetter {
+    background-color: #0b9b53;
+}
+
+#btnBetter:hover {
+    background-color: #0fb160;
+}
+
+#bntNotBetter {
+    background-color: #bb1128;
+}
+
+#bntNotBetter:hover {
+    background-color: #ce122b;
+}
