@@ -10,8 +10,7 @@ public class HelloWorld {
 
         System.out.println("Find alpha...");
         for (long i = 0; i < w; i++) {
-            System.out.println(modp(Math.pow(q, i), m));
-            if (x == modp(Math.pow(q, i), m)){
+            if (x == modp(pow(q, i), m)){
                 System.out.println("alpha " + i);
                 break;
             }
@@ -19,8 +18,7 @@ public class HelloWorld {
 
         System.out.println("Find beta...");
         for (long i = 0; i < w; i++){
-            System.out.println(modp(Math.pow(q, i), m));
-            if (y == modp(Math.pow(q, i), m)){
+            if (y == modp(pow(q, i), m)){
                 System.out.println("betta " + i);
                 break;
             }
@@ -28,12 +26,19 @@ public class HelloWorld {
         System.out.println("Finish");
     }
 
-    public static long modp(double a, double  b) {
+    public static long modp(long a, long  b) {
         if (a > 0) {
-            return (long) a % (long) b;
+            return a % b;
         } else {
-            return Math.abs(-((long)(a/b)) + 1 *((long)b) + ((long)a));
+            return Math.abs(-((a/b)) + 1 *(b) + (a));
         }
     }
-  
+
+    public static long pow(long a, long b) {
+        long res = a;
+        for (long i = 0; i < b; i++){
+            res*=a;
+        }
+        return res;
+    }
 }
