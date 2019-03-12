@@ -2,7 +2,9 @@
 function modp(a, b) {
     if (a > 0) {
         return a % b
-    } else {
+    } if (a === 0) {
+        return 0;
+    } else{
         return Math.abs(-Math.trunc(a/b) + 1 * b + a)
     }
 }
