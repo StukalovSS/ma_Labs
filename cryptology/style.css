@@ -1,0 +1,38 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background: #eee;
+    font-family: sans-serif;
+}
+
+.wrapper {
+    width: 1200px;
+    margin: 0 auto;
+}
+
+label, textarea {
+    display: block;
+}
+
+textarea {
+    width: 100%;
+}
+
+#gamma {
+    width: 500px;
+}
+
+label {
+    padding-bottom: 0.2em;
+}
+
+.block {
+    padding-bottom: 1em;
+}
+
+.radio-group * {
+    display: inline;
+
+}

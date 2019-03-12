@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="wrapper">
+        <h1>Гаммирование</h1>
+        <div class="radio-group block">
+
+            <input type="radio" id="ru"
+                name="lang" value="ru" checked onclick="switchLang(this.value)">
+            <label for="ru">Русский</label>
+
+            <input type="radio" id="eng"
+                name="lang" value="eng"  onclick="switchLang(this.value)">
+            <label for="eng">Английский</label>
+        
+
+        </div>
+        <div class="radio-group block">
+            <input type="radio" id="encode"
+                name="mode" value="encode" checked onclick="check(this.value)">
+            <label for="encode">Шифровать</label>
+        
+            <input type="radio" id="decode"
+                name="mode" value="decode" onclick="check(this.value)">
+            <label for="decode">Дешифровать</label>
+        </div>
+        <div class="block">
+            <label for="gamma">База гаммы (через запятую)</label>
+            <input type="text" name="gamma" id="gamma">
+        </div>
+        <div class="block">
+            <label for="input-text" id="input-label">Исходный текст</label>
+            <textarea name="input-text" id="input-text" cols="30" rows="10"></textarea>
+        </div>
+        <div class="block">
+            <label for="output-text" id="output-label">Зашифрованный текст</label>
+            <textarea name="output-text" id="output-text" cols="30" rows="10"></textarea>
+        </div>
+        <button type="submit" name="submit" id="submit" onclick="submit()">Выполнить</button>
+    </div>
+    <script src="script.js" > </script>
+    <script src="lib.js"></script>
+</body>
+</html>
