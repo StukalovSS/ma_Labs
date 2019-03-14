@@ -138,7 +138,7 @@ function updateAltsWindow(a1, a2, step, stepsCount){
 //ready
 function getMiddleIndex(length, move){
     //indexes start with zero
-    return (Math.ceil(length / 2) + move);
+    return (Math.ceil(length-1 / 2) + move);
 }
 
 function doRange(){
@@ -189,16 +189,16 @@ function compNotBetter(){
     range(false);
 }
 
-function getCurrentIndex(){
+function getCurrentIndex(currentDirection){
     var currentComp = 0;
     if (indexes.length == 0){
         currentComp = getMiddleIndex(res.length, 0);
     } else {
         var lastIndex = indexes[indexes.length-1];
-        if (!lastIndex.comp) {
+        if (!currentDirection) {
             // bad- bad
-            if (indexes.length == 1 || !indexes[indexes.length-2].comp) {
-                currentComp = getMiddleIndex((res.length - 1) - lastIndex.index, lastIndex.index - 1);
+            if (indexes.length == 1 || !lastIndex.comp) {
+                currentComp = getMiddleIndex((res.length) - lastIndex.index, lastIndex.index - 1);
             } else {
                 // bad - good
                 currentComp = getMiddleIndex(Math.abs(lastIndex.index - indexes[indexes.length-2].index), 
@@ -206,8 +206,8 @@ function getCurrentIndex(){
             }
         } else {
             // good - good
-            if (indexes.length == 1 || indexes[indexes.length-2].comp) {
-                currentComp = getMiddleIndex(lastIndex.index - 1, 0);
+            if (indexes.length == 1 || lastIndex.comp) {
+                currentComp = getMiddleIndex(lastIndex.index, 0);
             } else {
                 // good - bad
                 currentComp = getMiddleIndex(Math.abs(lastIndex.index - indexes[indexes.length-2].index), 
