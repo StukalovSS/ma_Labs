@@ -138,7 +138,8 @@ function updateAltsWindow(a1, a2, step, stepsCount){
 //ready
 function getMiddleIndex(length, move){
     //indexes start with zero
-    return (Math.ceil(length-1 / 2) + move);
+    console.log(Math.ceil((length - 1) / 2) + move);
+    return (Math.ceil((length - 1) / 2) + move);
 }
 
 function doRange(){
@@ -198,11 +199,11 @@ function getCurrentIndex(currentDirection){
         if (!currentDirection) {
             // bad- bad
             if (indexes.length == 1 || !lastIndex.comp) {
-                currentComp = getMiddleIndex((res.length) - lastIndex.index, lastIndex.index - 1);
+                currentComp = getMiddleIndex((res.length) - lastIndex.index, lastIndex.index);
             } else {
                 // bad - good
                 currentComp = getMiddleIndex(Math.abs(lastIndex.index - indexes[indexes.length-2].index), 
-                Math.min(lastIndex.index, indexes[indexes.length-2].index) - 1);
+                Math.min(lastIndex.index, indexes[indexes.length-2].index));
             }
         } else {
             // good - good
@@ -211,7 +212,7 @@ function getCurrentIndex(currentDirection){
             } else {
                 // good - bad
                 currentComp = getMiddleIndex(Math.abs(lastIndex.index - indexes[indexes.length-2].index), 
-                Math.min(lastIndex.index, indexes[indexes.length-2].index) - 1);
+                Math.min(lastIndex.index, indexes[indexes.length-2].index));
             }
         }
     }
@@ -223,13 +224,13 @@ function getCurrentIndex(currentDirection){
 function range(isBetter){
     if (numeratedAltArray.length != 0) {
         var currentComp = {};
-        currentComp.index = getCurrentIndex();
+        currentComp.index = getCurrentIndex(isBetter);
         currentComp.comp = isBetter;
 
         if (indexes.length == 0){
             //place 
             indexes.push(currentComp);
-            currentComp.index = getCurrentIndex();
+            currentComp.index = getCurrentIndex(isBetter);
             if (res.length == 1){
                 if (currentComp.comp) {
                     res.splice(currentComp.index, 0, numeratedAltArray[0]);
@@ -249,7 +250,7 @@ function range(isBetter){
             //end of step
             // res.push(numeratedAltArray[0]);
             if (currentComp.comp) {
-                res.splice(currentComp.index, 0, numeratedAltArray[0]);
+                res.splice(currentComp.index + 1, 0, numeratedAltArray[0]);
             } else {
                 res.splice(currentComp.index + 1, 0, numeratedAltArray[0]);
             }
@@ -257,7 +258,7 @@ function range(isBetter){
             indexes.length = 0;
             currentStep += 1;
             if (numeratedAltArray.length != 0){
-                currentComp.index = getCurrentIndex();
+                currentComp.index = getCurrentIndex(isBetter);
                 updateAltsWindow(numeratedAltArray[0] ,res[currentComp.index], currentStep, (res.length + numeratedAltArray.length) - 1);
             } else {
                 //close compare
@@ -275,10 +276,12 @@ function range(isBetter){
             }
         } else {
             indexes.push(currentComp);
-            currentComp.index = getCurrentIndex();
+            currentComp.index = getCurrentIndex(isBetter);
             updateAltsWindow(numeratedAltArray[0] ,res[currentComp.index], currentStep, (res.length + numeratedAltArray.length) - 1);
         }
 
+        console.log(res);
+        console.log(indexes);
 
         //check end of compare step
             //if yes and numeratedAltArray is not empty
