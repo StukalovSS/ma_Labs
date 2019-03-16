@@ -96,7 +96,9 @@ function refreshAltPanel(){
 //done
 function addAlternative(){
     var simpleNumber = altPanelsArray.length;
-    altContainer.appendChild(getAltPanel(simpleNumber, ""));
+    var pannel = getAltPanel(simpleNumber, "");
+    altContainer.appendChild(pannel);
+    pannel.getElementsByTagName('input')[0].focus()
 }
 
 //done
