@@ -1,28 +1,32 @@
 public class HelloWorld {
 
     public static void main (String[] args) {
-        System.out.println("Hello world");
+        //Look for the BigInteger class
+        // https://docs.oracle.com/javase/7/docs/api/java/math/BigInteger.html
+        
+        System.out.println("Diffy-Hellman");
+        System.out.println();
+        
         // long x = 38421;
         // long y = 14092;
         long x = 11108;
         long y = 35218;
         long m = 41903;
         long q = 10109;
-        long w = 100000000;
 
-        System.out.println("Find alpha...");
+        System.out.print("Find alpha... ");
         long alpha = 1;
         long tmp = modp(pow(q, alpha), m);
 
-        System.out.println(tmp);
+        // System.out.println(tmp);
 
         while (modp(tmp, m) != x) {
             tmp = modp(tmp*q, m);
             alpha += 1;
         }
-        System.out.println("alpha " + alpha);
+        System.out.println(alpha);
 
-        System.out.println("Find beta...");
+        System.out.print("Find beta... ");
         long beta = 1;
         tmp = modp(pow(q, beta), m);
 
@@ -30,24 +34,21 @@ public class HelloWorld {
             tmp = modp(tmp*q, m);
             beta += 1;
         }
-        System.out.println("beta " + beta);
+        System.out.println(beta);
 
-        // for (long i = 0; i < w; i++){
-        //     if (y == modp(pow(q, i), m)){
-        //         System.out.println("betta " + i);
-        //         beta = 1;
-        //         break;
-        //     }
-        // }
+        System.out.println(pow(y, 2));
 
         System.out.println("SecretKey (alpha): " + modp(pow(y, alpha), m));
         System.out.println("SecretKey (beta): " + modp(pow(x, beta), m));
+
         System.out.println("Finish");
     }
 
     public static long modp(long a, long  b) {
         if (a > 0) {
             return a % b;
+        } else if (a == 0) {
+            return 0;
         } else {
             return Math.abs(-((a/b)) + 1 *(b) + (a));
         }
