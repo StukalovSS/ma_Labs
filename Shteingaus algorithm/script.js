@@ -304,47 +304,9 @@ function range(isBetter){
 function modp(a, b) {
     if (a > 0) {
         return a % b
-    } else {
+    } if (a === 0) {
+        return 0;
+    } else{
         return Math.abs(-Math.trunc(a/b) + 1 * b + a)
     }
-}
-// Алгоритм Меркла-Хеллмана 
-
-// var w = [1, 2, 4, 9, 18, 35];
-// var q = 80;
-// var r = 29;
-// var x = [55, 97, 21, 79, 100, 155];
-
-// var a = [];
-// for (var key in w){
-//     a.push(modp(r*w[key], q));
-// }
-// console.log(a);
-// //допустим, r обратное = q-r
-// var rRev = 69;
-// // var rRev = q-r;
-// console.log(rRev);
-
-// var sMark = [];
-// //получаем S`
-// for (var key in x){
-//     sMark.push(modp(x[key]*rRev, q));
-// }
-// console.log(sMark);
-
-// var m = [];
-
-// for (var iKey in sMark) {
-//     elem = [];
-//     tmpS = sMark[iKey];
-//     console.log("current S`: " + tmpS);
-//     for (var jKey in w) {
-//         mi = w[((w.length - 1) - jKey)] > tmpS ? 0 : 1;
-//         elem.unshift(mi);
-//         tmpS = tmpS - w[((w.length - 1) - jKey)]*mi;
-//         console.log("m(i): " + mi + " | w(i): " + w[((w.length - 1) - jKey)] + " | S` after change: " + tmpS);
-//     }
-//     m.push(elem);
-//     console.log("---------------------------------------------------");
-// }
-// console.log(m);
+}   
