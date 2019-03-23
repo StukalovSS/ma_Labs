@@ -6,10 +6,10 @@ public class MerclyHellman {
         System.out.println("| Mercly-Hellman |");
         System.out.println();
 
-        long[] w = {1, 2, 4, 9, 18, 35};
-        long[] x = {55, 97, 21, 79, 100, 155};
-        long q = 80;
-        long r = 29;
+        long[] w = {1, 3, 6, 13, 29, 59};
+        long[] x = {328, 116, 212, 119, 258, 162, 365};
+        long q = 190;
+        long r = 31;
         
         ArrayList<Long> a = new ArrayList<Long>();
 
