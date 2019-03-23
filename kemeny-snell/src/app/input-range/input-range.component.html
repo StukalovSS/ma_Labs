@@ -20,8 +20,8 @@
             <div class="row col-sm-2">{{range.expertName + ': '}}</div>
             <div class="row obj-group" *ngFor="let object of range.objects; index as j">
               <div class="col">
-                  <select class="form-control obj" #obj name="obj" (change)="select(obj.value, i, j)">
-                    <option *ngFor="let object of initRange"  [value]="object" [selected] ="object === range.objects[j]">{{object}}</option>
+                  <select class="form-control obj" #obj name="obj" [(ngModel)]="range.objects[j]">
+                    <option *ngFor="let object of initRange"  [ngValue]="object" [selected] ="object.name === range.objects[j].name">{{object.name}}</option>
                   </select>
                 </div>
               <div class="col" *ngIf='j < range.objects.length - 1'>

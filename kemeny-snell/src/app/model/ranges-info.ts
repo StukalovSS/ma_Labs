@@ -6,8 +6,13 @@ export class RangesInfo {
 
 export class RangeInfo {
     expertName: string;
-    objects: string[] = [];
+    objects: ObjectInfo[] = [];
     structure: structure[] = [];
 }
 
 export type structure =  '>' | '~';
+
+export class ObjectInfo {
+    name: string;
+    index: number;
+}

@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { RangesInfo, RangeInfo } from '../model/ranges-info';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { RangesInfo, RangeInfo, ObjectInfo } from '../model/ranges-info';
 
 @Component({
   selector: 'app-input-range',
@@ -8,13 +8,15 @@ import { RangesInfo, RangeInfo } from '../model/ranges-info';
 })
 export class InputRangeComponent implements OnInit {
 
+  @Output() rangesInfoChange = new EventEmitter<RangesInfo>();
+
   rangesInfo = new RangesInfo();
 
   isFirstStage = true;
 
   structures = ['>', '~'];
 
-  initRange:string[] = [];
+  initRange:ObjectInfo[] = [];
 
   constructor() { }
 
@@ -35,7 +37,7 @@ export class InputRangeComponent implements OnInit {
   }
 
   submit() {
-    console.log(this.rangesInfo.ranges)
+    this.rangesInfoChange.emit(this.rangesInfo);
   }
 
   clear() {
@@ -47,7 +49,9 @@ export class InputRangeComponent implements OnInit {
     for(let i = 0; i < this.rangesInfo.m; i++) {
       const range = new RangeInfo();
       for(let j = 0; j < this.rangesInfo.n; j++) {
-        const obj = 'a' + (j + 1);
+        const obj = new ObjectInfo();
+        obj.name =  'a' + (j + 1);
+        obj.index = j;
         range.objects.push(obj);
         if(j < this.rangesInfo.n - 1) {
           range.structure.push('>');
@@ -58,13 +62,18 @@ export class InputRangeComponent implements OnInit {
     }
 
     for (let i = 0; i < this.rangesInfo.n; i++) {
-      const obj = 'a' + (i + 1);
+      const obj = new ObjectInfo();
+      obj.name =  'a' + (i + 1);
+      obj.index = i;
       this.initRange.push(obj);
     }
   }
 
   select(object, i, j) {
-    this.rangesInfo.ranges[i].objects[j] = object;
+    let obj = new ObjectInfo();
+    obj.name = object;
+    obj.index = this.initRange.indexOf(object);
+    this.rangesInfo.ranges[i].objects[j] = obj;
   }
 
 }
