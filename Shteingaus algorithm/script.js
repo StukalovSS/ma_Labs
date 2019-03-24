@@ -96,7 +96,9 @@ function refreshAltPanel(){
 //done
 function addAlternative(){
     var simpleNumber = altPanelsArray.length;
-    altContainer.appendChild(getAltPanel(simpleNumber, ""));
+    var pannel = getAltPanel(simpleNumber, "");
+    altContainer.appendChild(pannel);
+    pannel.getElementsByTagName('input')[0].focus()
 }
 
 //done
@@ -175,9 +177,7 @@ function doRange(){
     updateAltsWindow(numeratedAltArray[0] ,res[0], currentStep, (res.length + numeratedAltArray.length) - 1);
 
     //clean output box
-    while (outputBox.firstChild) {
-        outputBox.removeChild(outputBox.firstChild);
-    }
+    cleanResult();
 }
 
 function compBetter(){
@@ -297,15 +297,7 @@ function range(isBetter){
                 //close compare
                 questWindow.classList.add("hide");
                 // output
-                var resultString = "";
-                for (var key in res){
-                    resultString = resultString + "a" + (+res[key].num + 1);
-                    if (!(key == res.length - 1)) {
-                        resultString = resultString + " > ";
-                    }
-                }
-                outputBox.appendChild(document.createTextNode(resultString));
-
+                showResult();
             }
         } else {
             indexes.push(currentComp);
@@ -313,13 +305,33 @@ function range(isBetter){
             console.log("ELEMENT INDEX FOR COMPARE: " + currentComp.index);
             updateAltsWindow(numeratedAltArray[0] ,res[currentComp.index], currentStep, (res.length + numeratedAltArray.length) - 1);
         }
-
+        console.log('результирующее множество: ')
         console.log("Current (maybe) RES array state: ");
         console.log(res);
         console.log(">-----------------------END OF ITERATION-----------------------------<");
+        showResult();
 
     } else {
         questWindow.classList.add("hide");
+    }
+}
+
+function showResult() {
+    cleanResult();
+    var resultString = "";
+    for (var key in res){
+        resultString = resultString + "a" + (+res[key].num + 1);
+        if (!(key == res.length - 1)) {
+            resultString = resultString + " > ";
+        }
+    }
+    outputBox.appendChild(document.createTextNode(resultString));
+}
+
+
+function cleanResult() {
+    while (outputBox.firstChild) {
+        outputBox.removeChild(outputBox.firstChild);
     }
 }
 
