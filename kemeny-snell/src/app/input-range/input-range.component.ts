@@ -34,6 +34,8 @@ export class InputRangeComponent implements OnInit {
 
   backOnTheFirstStage() {
     this.isFirstStage = true;
+    this.clear();
+    this.rangesInfoChange.emit(new RangesInfo);
   }
 
   submit() {

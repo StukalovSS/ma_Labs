@@ -1,0 +1,16 @@
+td {
+    border: 1px solid;
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    box-sizing: content-box;
+}
+
+.align-middle {
+    text-align: right;
+    line-height: 400%;
+}
+
+.col {
+    padding: 0;
+}

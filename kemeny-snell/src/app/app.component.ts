@@ -15,7 +15,8 @@ const test: RangesInfo = {
         {"name":"a4","index":3}
       ],
       "structure":[">","~",">"],
-      "expertName":"Эксперт 1"
+      "expertName":"Эксперт 1",
+      "compMatrix":[]
     },
     {
       "objects":[
@@ -25,7 +26,8 @@ const test: RangesInfo = {
         {"name":"a4","index":3}
       ],
       "structure":["~",">",">"],
-      "expertName":"Эксперт 2"
+      "expertName":"Эксперт 2",
+      "compMatrix":[]
     },
     {
       "objects":[
@@ -35,7 +37,8 @@ const test: RangesInfo = {
         {"name":"a1","index":0}
       ],
       "structure":[">","~",">"],
-      "expertName":"Эксперт 3"
+      "expertName":"Эксперт 3",
+      "compMatrix":[]
     },
     {
       "objects":[
@@ -45,7 +48,8 @@ const test: RangesInfo = {
         {"name":"a4","index":3}
       ],
       "structure":[">",">","~"],
-      "expertName":"Эксперт 4"
+      "expertName":"Эксперт 4",
+      "compMatrix":[]
     },
     {
       "objects":[
@@ -55,7 +59,8 @@ const test: RangesInfo = {
         {"name":"a4","index":3}
       ],
       "structure":["~",">","~"]
-      ,"expertName":"Эксперт 5"
+      ,"expertName":"Эксперт 5",
+      "compMatrix":[]
     }
   ]
 };
@@ -83,8 +88,13 @@ export class AppComponent {
 
   onChanged(rangesInfo) {
     this.rangesInfo = rangesInfo;
-    // console.log(this.servise.compare(rangesInfo.ranges[0], this.test1, this.test2))
-    console.log(test.ranges[1]);
-    console.log(this.servise.getRMatrix(test.ranges[2]));
+    this.rangesInfo.ranges.forEach((item) => {
+      item.compMatrix = this.servise.getRMatrix(item)
+    })
+    console.log(this.rangesInfo);
+  }
+
+  isShowResult() {
+    return this.rangesInfo && this.rangesInfo.ranges.length != 0
   }
 }

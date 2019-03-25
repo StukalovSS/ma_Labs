@@ -8,6 +8,7 @@ export class RangeInfo {
     expertName: string;
     objects: ObjectInfo[] = [];
     structure: structure[] = [];
+    compMatrix = [];
 }
 
 export type structure =  '>' | '~';

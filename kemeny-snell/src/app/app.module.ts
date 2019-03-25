@@ -4,11 +4,13 @@ import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { InputRangeComponent } from './input-range/input-range.component';
+import { CompTableComponent } from './comp-table/comp-table.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    InputRangeComponent
+    InputRangeComponent,
+    CompTableComponent
   ],
   imports: [
     BrowserModule,
