@@ -1,5 +1,6 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { RangesInfo, RangeInfo, ObjectInfo } from '../model/ranges-info';
+import { KemenySnellService } from '../services/kemeny-snell.service';
 
 @Component({
   selector: 'app-input-range',
@@ -16,9 +17,10 @@ export class InputRangeComponent implements OnInit {
 
   structures = ['>', '~'];
 
-  initRange:ObjectInfo[] = [];
+  initRange: ObjectInfo[] = [];
 
-  constructor() { }
+
+  constructor(private servise: KemenySnellService) { }
 
   ngOnInit() {
   }
@@ -63,12 +65,7 @@ export class InputRangeComponent implements OnInit {
       this.rangesInfo.ranges.push(range);
     }
 
-    for (let i = 0; i < this.rangesInfo.n; i++) {
-      const obj = new ObjectInfo();
-      obj.name =  'a' + (i + 1);
-      obj.index = i;
-      this.initRange.push(obj);
-    }
+    this.initRange = this.servise.getAllObjects(this.rangesInfo.n);
   }
 
   select(object, i, j) {
@@ -76,6 +73,15 @@ export class InputRangeComponent implements OnInit {
     obj.name = object;
     obj.index = this.initRange.indexOf(object);
     this.rangesInfo.ranges[i].objects[j] = obj;
+  }
+
+  compareFn(c1: ObjectInfo, c2: ObjectInfo): boolean {
+    return c1 && c2 ? c1.index === c2.index : c1 === c2;
+  }
+
+  isSelected(object: ObjectInfo, index: number) {
+    console.log(object.index + ' ' +  index);
+    return object.index === index;
   }
 
 }

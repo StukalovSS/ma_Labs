@@ -82,9 +82,16 @@ export class AppComponent {
     index: 1
   }
 
-  rangesInfo = new RangesInfo();
+  test = test;
 
-  constructor(private servise: KemenySnellService) { }
+  rangesInfo = new RangesInfo();
+  resultRange: RangeInfo = null;
+
+  constructor(private servise: KemenySnellService) {
+    this.test.ranges.forEach((item) => {
+      item.compMatrix = this.servise.getRMatrix(item)
+    })
+   }
 
   onChanged(rangesInfo) {
     this.rangesInfo = rangesInfo;
@@ -92,9 +99,14 @@ export class AppComponent {
       item.compMatrix = this.servise.getRMatrix(item)
     })
     console.log(this.rangesInfo);
+    this.resultRange =  this.servise.getResRange(rangesInfo);
   }
 
   isShowResult() {
     return this.rangesInfo && this.rangesInfo.ranges.length != 0
+  }
+
+  getRangeAsString(range: RangeInfo) {
+    return this.servise.getRangeAsString(range);
   }
 }

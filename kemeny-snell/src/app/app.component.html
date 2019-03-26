@@ -4,6 +4,9 @@
 <div class="container">
   <app-input-range (rangesInfoChange)="onChanged($event)"></app-input-range>
   <hr>
+  <h5 *ngIf="isShowResult()">Результат</h5>
+  <div *ngIf="isShowResult()">{{getRangeAsString(resultRange)}}</div>
+  <hr>
   <h5 *ngIf="isShowResult()">Вычисления</h5>
   <div id="accordion"  *ngIf="isShowResult()">
       <div class="card">
