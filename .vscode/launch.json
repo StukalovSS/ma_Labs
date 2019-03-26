@@ -1,0 +1,18 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - MerclyHellman",
+            "request": "launch",
+            "mainClass": "MerclyHellman",
+            "projectName": "ma_Labs_281fddd7"
+        },
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - HelloWorld",
+            "request": "launch",
+            "mainClass": "HelloWorld",
+            "projectName": "ma_Labs_281fddd7"
+        }
+    ]
+}

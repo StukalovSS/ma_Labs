@@ -140,8 +140,8 @@ function updateAltsWindow(a1, a2, step, stepsCount){
 //ready
 function getMiddleIndex(length, move){
     //indexes start with zero
-    console.log('медиана: ' + Math.ceil((length - 1) / 2) + move);
-    return (Math.ceil((length - 1) / 2) + move);
+    console.log(Math.ceil(length / 2) + move - 1);
+    return (Math.ceil(length / 2) + move) - 1;
 }
 
 function doRange(){
@@ -194,25 +194,53 @@ function getCurrentIndex(currentDirection){
     var currentComp = 0;
     if (indexes.length == 0){
         currentComp = getMiddleIndex(res.length, 0);
+
+        console.log("Index: " + currentComp + " Elem count and move: " + res.length + ", " + 0);
     } else {
         var lastIndex = indexes[indexes.length-1];
         if (!currentDirection) {
-            // bad- bad
-            if (indexes.length == 1 || !lastIndex.comp) {
-                currentComp = getMiddleIndex((res.length) - lastIndex.index, lastIndex.index);
-            } else {
+            if (indexes.length == 1) {
+                currentComp = getMiddleIndex((res.length) - (lastIndex.index + 1), lastIndex.index + 1);
+
+                console.log("Index: " + currentComp + " Elem count and move: " + 
+                ((res.length) - (lastIndex.index + 1)) + ", " + (lastIndex.index + 1));
+            } else if (!lastIndex.comp) {
+                // bad - bad
+                currentComp = getMiddleIndex(Math.abs(lastIndex.index - indexes[indexes.length-2].index), 
+                Math.min((lastIndex.index + 1), (indexes[indexes.length-2].index + 1)));
+
+                console.log("Index: " + currentComp + " Elem count and move: " + 
+                Math.abs(lastIndex.index  - indexes[indexes.length-2].index) + ", " + 
+                Math.min(lastIndex.index + 1, indexes[indexes.length-2].index + 1));
+             } else {
                 // bad - good
                 currentComp = getMiddleIndex(Math.abs(lastIndex.index - indexes[indexes.length-2].index), 
-                Math.min(lastIndex.index, indexes[indexes.length-2].index));
+                Math.min((lastIndex.index + 1), (indexes[indexes.length-2].index + 1)));
+
+                console.log("Index: " + currentComp + " Elem count and move: " + 
+                Math.abs(lastIndex.index  - indexes[indexes.length-2].index) + ", " + 
+                Math.min(lastIndex.index + 1, indexes[indexes.length-2].index + 1));
             }
         } else {
-            // good - good
-            if (indexes.length == 1 || lastIndex.comp) {
-                currentComp = getMiddleIndex(lastIndex.index, 0);
+            if (indexes.length == 1) {
+                currentComp = getMiddleIndex((lastIndex.index + 1), 0);
+
+                console.log("Index: " + currentComp + " Elem count and move: " + 
+                (lastIndex.index + 1) + ", " + 0);
+            } else if (lastIndex.comp) {
+                // good - good
+                currentComp = getMiddleIndex(Math.abs(lastIndex.index - indexes[indexes.length-2].index), 0);
+
+                console.log("Index: " + currentComp + " Elem count and move: " + 
+                Math.abs(lastIndex.index - indexes[indexes.length-2].index) + ", " + 0);
             } else {
                 // good - bad
                 currentComp = getMiddleIndex(Math.abs(lastIndex.index - indexes[indexes.length-2].index), 
-                Math.min(lastIndex.index, indexes[indexes.length-2].index));
+                Math.min((lastIndex.index + 1), (indexes[indexes.length-2].index + 1)));
+
+                console.log("Index: " + currentComp + " Elem count and move: " + 
+                Math.abs(lastIndex.index - indexes[indexes.length-2].index) + ", " +
+                Math.min(lastIndex.index + 1, indexes[indexes.length-2].index + 1));
             }
         }
     }
@@ -225,37 +253,42 @@ function range(isBetter){
     if (numeratedAltArray.length != 0) {
         var currentComp = {};
         currentComp.index = getCurrentIndex(isBetter);
+        console.log("ELEMENT INDEX FOR CHECK AND PLACE: " + currentComp.index);
         currentComp.comp = isBetter;
 
-        if (indexes.length == 0){
-            //place 
-            indexes.push(currentComp);
-            currentComp.index = getCurrentIndex(isBetter);
-            if (res.length == 1){
+        console.log("INDEXES array state: ");
+        console.log(indexes);
+
+        if ((currentComp.index == 0 && currentComp.comp) ||                                //a(i) > a(0)
+                (currentComp.index == (res.length - 1) && !currentComp.comp) ||            //a(i) < a(n)
+                (indexes.length != 0 &&
+                (Math.abs(currentComp.index - indexes[indexes.length-1].index) <= 1) &&    //дошли до конца сравнения
+                (currentComp.comp != indexes[indexes.length-1].comp)) ) {    
+
+            //end of step
+            if (indexes.length != 0) {
+                if (indexes[indexes.length-1].comp) {
+                    //before element
+                    res.splice(currentComp.index, 0, numeratedAltArray[0]);
+                    console.log("Elem added at position " + currentComp.index + " with parametr " + currentComp.comp);
+                } else {
+                    //after element
+                    res.splice((currentComp.index + 1), 0, numeratedAltArray[0]);
+                    console.log("Elem added at position " + (currentComp.index + 1) + " with parametr " + currentComp.comp);
+                }
+            } else {
                 if (currentComp.comp) {
+                    //before element
                     res.splice(currentComp.index, 0, numeratedAltArray[0]);
                 } else {
+                    //after element
                     res.splice(currentComp.index + 1, 0, numeratedAltArray[0]);
                 }
-                numeratedAltArray.splice(0, 1);
-                indexes.length = 0;
-                currentStep += 1;
             }
-            updateAltsWindow(numeratedAltArray[0] ,res[currentComp.index], currentStep, (res.length + numeratedAltArray.length) - 1);
-        } else if ((currentComp.index == 0 && currentComp.comp) ||
-                    (currentComp.index == (res.length - 1) && !currentComp.comp) ||
-                    ((Math.abs(currentComp.index - indexes[indexes.length-1].index) == 1) &&
-                    ((!currentComp.comp && indexes[indexes.length-1].comp) || 
-                    (currentComp.comp && !indexes[indexes.length-1].comp) ) )) {
-            //end of step
-            // res.push(numeratedAltArray[0]);
-            if (currentComp.comp) {
-                res.splice(currentComp.index + 1, 0, numeratedAltArray[0]);
-            } else {
-                res.splice(currentComp.index + 1, 0, numeratedAltArray[0]);
-            }
+
             numeratedAltArray.splice(0, 1);
             indexes.length = 0;
+            console.log("<>--------------------- End of step " + currentStep + " ---------------------------<>");
             currentStep += 1;
             if (numeratedAltArray.length != 0){
                 currentComp.index = getCurrentIndex(isBetter);
@@ -269,23 +302,14 @@ function range(isBetter){
         } else {
             indexes.push(currentComp);
             currentComp.index = getCurrentIndex(isBetter);
+            console.log("ELEMENT INDEX FOR COMPARE: " + currentComp.index);
             updateAltsWindow(numeratedAltArray[0] ,res[currentComp.index], currentStep, (res.length + numeratedAltArray.length) - 1);
         }
         console.log('результирующее множество: ')
+        console.log("Current (maybe) RES array state: ");
         console.log(res);
-        console.log(indexes);
+        console.log(">-----------------------END OF ITERATION-----------------------------<");
         showResult();
-
-        //check end of compare step
-            //if yes and numeratedAltArray is not empty
-                //go to next step
-            //if yes and numeratedAltArray is empty
-                //close window and show result
-            //if no
-                //continue compare
-
-        // 
-        // currentStep += 1;
 
     } else {
         questWindow.classList.add("hide");
