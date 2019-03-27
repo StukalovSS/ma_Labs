@@ -17,3 +17,8 @@ export class ObjectInfo {
     name: string;
     index: number;
 }
+
+export class CMatr {
+    matr = [];
+    vector = [];
+}

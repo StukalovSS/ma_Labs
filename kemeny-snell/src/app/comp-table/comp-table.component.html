@@ -1,8 +1,8 @@
 <div class="row">
-    <h5 class="col-sm-1 align-middle">{{'R' + index + ' =' }}</h5>
+    <h5 class="col-lg-2 align-middle">{{prefix + '' + index + ' =' }}</h5>
     <div class="col">
-        <table  *ngIf="range">
-            <tr *ngFor="let col of range.compMatrix">
+        <table  *ngIf="matr">
+            <tr *ngFor="let col of matr">
                 <td *ngFor="let item of col">{{item}}</td>
             </tr>
         </table>

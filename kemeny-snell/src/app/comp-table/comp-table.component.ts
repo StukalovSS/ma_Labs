@@ -8,8 +8,9 @@ import { RangeInfo } from '../model/ranges-info';
 })
 export class CompTableComponent implements OnInit {
 
-  @Input() range: RangeInfo;
+  @Input() matr: any;
   @Input() index: number;
+  @Input() prefix: string;
 
   constructor() { }
 
@@ -17,7 +18,6 @@ export class CompTableComponent implements OnInit {
   }
 
   test() {
-    return JSON.stringify(this.range);
   }
 
 }

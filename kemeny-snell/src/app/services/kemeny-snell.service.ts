@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { RangeInfo, ObjectInfo, RangesInfo, structure } from '../model/ranges-info';
+import { RangeInfo, ObjectInfo, RangesInfo, structure, CMatr } from '../model/ranges-info';
 
 @Injectable({
   providedIn: 'root'
@@ -148,6 +148,13 @@ export class KemenySnellService {
     })
   }
 
+  realyRemoveRowAndCol(matr,index: number) {
+    matr.splice(index, 1);
+    matr.forEach((row: number[])=> {
+      row.splice(index, 1);
+    })
+  }
+
   // Собирает все вместе и выдает итоговое ранжирование
   getResRange(rangesInfo: RangesInfo) {
     const C = this.getCMatr(rangesInfo);
@@ -158,7 +165,34 @@ export class KemenySnellService {
       resIndexes.push(index);
       console.log(C);
     }
-    return this.getRangeByIndexes(resIndexes, rangesInfo.n);
+    // this.getCMatrsToDraw(rangesInfo, resIndexes);
+    return resIndexes;
+  }
+
+  coplyArray(ar: any[]) {
+    const res = [];
+    ar.forEach(item => {
+      res.push(item.slice())
+    })
+    return res;
+  }
+
+  getCMatrsToDraw(rangesInfo: RangesInfo, resIndexes: number[]) {
+    const res: CMatr[] = [];
+    let cmatr: CMatr = new CMatr();
+    const C = this.getCMatr(rangesInfo);
+    cmatr.matr = this.coplyArray(C);
+    cmatr.vector = this.sumRows(C);
+    res.push(cmatr);
+    for (let i = 0; i < resIndexes.length -2; i++) {
+      cmatr = new CMatr();
+      this.realyRemoveRowAndCol(C, resIndexes[i]);
+      cmatr.matr = this.coplyArray(C);
+      cmatr.vector = this.sumRows(C);
+      res.push(cmatr);
+    }
+    console.log(res);
+    return res;
   }
 
   // по массиву из индексов получаем готвое ранжирование

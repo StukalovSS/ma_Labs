@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { RangesInfo, RangeInfo, ObjectInfo } from './model/ranges-info';
+import { RangesInfo, RangeInfo, ObjectInfo, CMatr } from './model/ranges-info';
 import { KemenySnellService } from './services/kemeny-snell.service';
 
 const test: RangesInfo = {
@@ -86,6 +86,7 @@ export class AppComponent {
 
   rangesInfo = new RangesInfo();
   resultRange: RangeInfo = null;
+  cMatrs: CMatr[] = [];
 
   constructor(private servise: KemenySnellService) {
     this.test.ranges.forEach((item) => {
@@ -98,8 +99,11 @@ export class AppComponent {
     this.rangesInfo.ranges.forEach((item) => {
       item.compMatrix = this.servise.getRMatrix(item)
     })
-    console.log(this.rangesInfo);
-    this.resultRange =  this.servise.getResRange(rangesInfo);
+    console.log(rangesInfo)
+    const indexes = this.servise.getResRange(rangesInfo);
+    this.resultRange =  this.servise.getRangeByIndexes(indexes, rangesInfo.n);
+    this.cMatrs = this.servise.getCMatrsToDraw(rangesInfo, indexes);
+    console.log(this.cMatrs);
   }
 
   isShowResult() {
@@ -108,5 +112,9 @@ export class AppComponent {
 
   getRangeAsString(range: RangeInfo) {
     return this.servise.getRangeAsString(range);
+  }
+
+  vectorToStr(ar: any[]) {
+    return '(' + ar.join(', ') + ')'
   }
 }
