@@ -20,13 +20,13 @@
             <div class="row col-sm-2">{{range.expertName + ': '}}</div>
             <div class="row obj-group" *ngFor="let object of range.objects; index as j">
               <div class="col">
-                  <select [compareWith]="compareFn" class="form-control obj" #obj name="obj" [(ngModel)]="range.objects[j]">
-                    <option *ngFor="let obj of initRange"  [ngValue]="obj" [selected] ="obj.index === 0">{{object.name}}</option>
+                  <select [compareWith]="compareFn" name="obj" class="form-control obj" [(ngModel)]="range.objects[j]">
+                    <option *ngFor="let o of initRange"  [ngValue]="o" [selected]="o.index === j">{{o.name}}</option> 
                   </select>
                 </div>
               <div class="col" *ngIf='j < range.objects.length - 1'>
                 <select class="form-control struct" [(ngModel)]="range.structure[j]" name="struct">
-                  <option *ngFor="let struct of structures" [value]="struct">{{struct}}</option>
+                  <option *ngFor="let struct of structures" [ngValue]="struct">{{struct}}</option>
                 </select>
               </div>
             </div>

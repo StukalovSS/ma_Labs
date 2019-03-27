@@ -41,7 +41,12 @@ export class InputRangeComponent implements OnInit {
   }
 
   submit() {
-    this.rangesInfoChange.emit(this.rangesInfo);
+    const message = this.validate();
+    if (message === "") {
+      this.rangesInfoChange.emit(this.rangesInfo);
+    } else {
+      alert(message)
+    }
   }
 
   clear() {
@@ -54,8 +59,6 @@ export class InputRangeComponent implements OnInit {
       const range = new RangeInfo();
       for(let j = 0; j < this.rangesInfo.n; j++) {
         const obj = new ObjectInfo();
-        obj.name =  'a' + (j + 1);
-        obj.index = j;
         range.objects.push(obj);
         if(j < this.rangesInfo.n - 1) {
           range.structure.push('>');
@@ -68,6 +71,23 @@ export class InputRangeComponent implements OnInit {
     this.initRange = this.servise.getAllObjects(this.rangesInfo.n);
   }
 
+  validate() {
+    for (let i = 0; i < this.rangesInfo.m; i++) {
+      let checkSet =  new Set<ObjectInfo>();
+      for (let j = 0; j < this.rangesInfo.n; j++) {
+        if (this.rangesInfo.ranges[i].objects[j].index !== null && this.rangesInfo.ranges[i].objects[j].index !== undefined) {
+          checkSet.add(this.rangesInfo.ranges[i].objects[j]);
+        } else {
+          return 'Заполните все поля формы.';
+        }
+      }
+      if (checkSet.size !== this.rangesInfo.n) {
+        return 'Все объекты в строке должны быть уникальными.';
+      }
+    }
+    return '';
+  }
+
   select(object, i, j) {
     let obj = new ObjectInfo();
     obj.name = object;
@@ -76,12 +96,17 @@ export class InputRangeComponent implements OnInit {
   }
 
   compareFn(c1: ObjectInfo, c2: ObjectInfo): boolean {
-    return c1 && c2 ? c1.index === c2.index : c1 === c2;
+    return c1 && c2 ? c1.index === c2.index : false;
   }
 
   isSelected(object: ObjectInfo, index: number) {
     console.log(object.index + ' ' +  index);
     return object.index === index;
+  }
+
+  onChangeObj(value) {
+    console.log(value);
+    // this.rangesInfo.ranges[i].objects[j] = value;
   }
 
 }
