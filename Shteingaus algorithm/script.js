@@ -260,7 +260,8 @@ function range(isBetter){
         console.log(indexes);
 
         if ((currentComp.index == 0 && currentComp.comp) ||                                //a(i) > a(0)
-                (currentComp.index == (res.length - 1) && !currentComp.comp) ||            //a(i) < a(n)
+                (currentComp.index == (res.length - 1) && !currentComp.comp && 
+                (indexes.length == 0 || (indexes.length != 0 && indexes[indexes.length-1].index == currentComp.index))) ||            //a(i) < a(n)
                 (indexes.length != 0 &&
                 (Math.abs(currentComp.index - indexes[indexes.length-1].index) <= 1) &&    //дошли до конца сравнения
                 (currentComp.comp != indexes[indexes.length-1].comp)) ) {    
