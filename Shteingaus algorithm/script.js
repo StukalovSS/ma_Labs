@@ -201,46 +201,47 @@ function getCurrentIndex(currentDirection){
         if (!currentDirection) {
             if (indexes.length == 1) {
                 currentComp = getMiddleIndex((res.length) - (lastIndex.index + 1), lastIndex.index + 1);
-
-                console.log("Index: " + currentComp + " Elem count and move: " + 
-                ((res.length) - (lastIndex.index + 1)) + ", " + (lastIndex.index + 1));
             } else if (!lastIndex.comp) {
                 // bad - bad
-                currentComp = getMiddleIndex(Math.abs(lastIndex.index - indexes[indexes.length-2].index), 
-                Math.min((lastIndex.index + 1), (indexes[indexes.length-2].index + 1)));
+                if (indexes.length > 1) {
+                    for (var i = indexes.length - 1; i >= 0; i--){
+                        if (indexes[i].comp) {
+                            currentComp = getMiddleIndex(Math.abs(lastIndex.index - indexes[indexes.length-2].index), 
+                            Math.min((lastIndex.index + 1), (indexes[indexes.length-2].index + 1)));
+                            // break;
+                            return currentComp;
+                        }
+                    }
 
-                console.log("Index: " + currentComp + " Elem count and move: " + 
-                Math.abs(lastIndex.index  - indexes[indexes.length-2].index) + ", " + 
-                Math.min(lastIndex.index + 1, indexes[indexes.length-2].index + 1));
+                }
+                currentComp = getMiddleIndex((lastIndex.index + 1), 
+                Math.min((lastIndex.index + 1), (indexes[indexes.length-2].index + 1)));
              } else {
                 // bad - good
                 currentComp = getMiddleIndex(Math.abs(lastIndex.index - indexes[indexes.length-2].index), 
                 Math.min((lastIndex.index + 1), (indexes[indexes.length-2].index + 1)));
-
-                console.log("Index: " + currentComp + " Elem count and move: " + 
-                Math.abs(lastIndex.index  - indexes[indexes.length-2].index) + ", " + 
-                Math.min(lastIndex.index + 1, indexes[indexes.length-2].index + 1));
             }
         } else {
             if (indexes.length == 1) {
                 currentComp = getMiddleIndex((lastIndex.index + 1), 0);
-
-                console.log("Index: " + currentComp + " Elem count and move: " + 
-                (lastIndex.index + 1) + ", " + 0);
             } else if (lastIndex.comp) {
                 // good - good
-                currentComp = getMiddleIndex(Math.abs(lastIndex.index - indexes[indexes.length-2].index), 0);
+                if (indexes.length > 1) {
+                    for (var i = indexes.length - 1; i >= 0; i--){
+                        if (!indexes[i].comp) {
+                            currentComp = getMiddleIndex(Math.abs(lastIndex.index - indexes[indexes.length-2].index), 
+                            Math.min((lastIndex.index + 1), (indexes[indexes.length-2].index + 1)));
+                            // break;
+                            return currentComp;
+                        }
+                    }
 
-                console.log("Index: " + currentComp + " Elem count and move: " + 
-                Math.abs(lastIndex.index - indexes[indexes.length-2].index) + ", " + 0);
+                }
+                currentComp = getMiddleIndex((lastIndex.index + 1), 0);
             } else {
                 // good - bad
                 currentComp = getMiddleIndex(Math.abs(lastIndex.index - indexes[indexes.length-2].index), 
                 Math.min((lastIndex.index + 1), (indexes[indexes.length-2].index + 1)));
-
-                console.log("Index: " + currentComp + " Elem count and move: " + 
-                Math.abs(lastIndex.index - indexes[indexes.length-2].index) + ", " +
-                Math.min(lastIndex.index + 1, indexes[indexes.length-2].index + 1));
             }
         }
     }
@@ -249,26 +250,35 @@ function getCurrentIndex(currentDirection){
 
 //call this func from compare buttons handlers
 // true - current alt is better than alt in res array
+
 function range(isBetter){
     if (numeratedAltArray.length != 0) {
         var currentComp = {};
-        currentComp.index = getCurrentIndex(isBetter);
-        console.log("ELEMENT INDEX FOR CHECK AND PLACE: " + currentComp.index);
+        // currentComp.index = getCurrentIndex(isBetter); //тут не конкретное направление нужно, а что-то другое 9 и не предыдущее =(
+        currentComp.index = getCurrentIndex(indexes.length == 0 ? isBetter : indexes[indexes.length-1].comp);
         currentComp.comp = isBetter;
-
+        
+        console.log("ELEMENT INDEX FOR CHECK AND PLACE: " + currentComp.index);
         console.log("INDEXES array state: ");
         console.log(indexes);
 
-        if ((currentComp.index == 0 && currentComp.comp) ||                                //a(i) > a(0)
-                (currentComp.index == (res.length - 1) && !currentComp.comp && 
-                (indexes.length == 0 || (indexes.length != 0 && indexes[indexes.length-1].index == currentComp.index))) ||            //a(i) < a(n)
-                (indexes.length != 0 &&
-                (Math.abs(currentComp.index - indexes[indexes.length-1].index) <= 1) &&    //дошли до конца сравнения
-                (currentComp.comp != indexes[indexes.length-1].comp)) ) {    
+        if ((currentComp.index == 0 && currentComp.comp)) 
+        {    
+            //add element in top
+            res.splice(0, 0, numeratedAltArray[0]);
+            numeratedAltArray.splice(0, 1);
+            indexes.length = 0;
+            
+        } else if (currentComp.index == (res.length - 1) && !currentComp.comp /*&& 
+        (indexes.length == 0 || (indexes.length != 0 && indexes[indexes.length-1].index == currentComp.index))*/) {
+            //add element in tail
+            res.push(numeratedAltArray[0]);
+            numeratedAltArray.splice(0, 1);
+            indexes.length = 0;
 
-            //end of step
-            if (indexes.length != 0) {
-                if (indexes[indexes.length-1].comp) {
+        } else if (indexes.length != 0 && (Math.abs(currentComp.index - indexes[indexes.length-1].index) <= 1)) {
+            if ((currentComp.comp != indexes[indexes.length-1].comp)) {
+                if (currentComp.comp) {
                     //before element
                     res.splice(currentComp.index, 0, numeratedAltArray[0]);
                     console.log("Elem added at position " + currentComp.index + " with parametr " + currentComp.comp);
@@ -277,34 +287,43 @@ function range(isBetter){
                     res.splice((currentComp.index + 1), 0, numeratedAltArray[0]);
                     console.log("Elem added at position " + (currentComp.index + 1) + " with parametr " + currentComp.comp);
                 }
+                numeratedAltArray.splice(0, 1);
+                indexes.length = 0;
+            } else if (indexes.length > 1 && (Math.abs(currentComp.index - indexes[indexes.length-2].index) <= 1) &&
+                (indexes[indexes.length-2].comp != indexes[indexes.length-1].comp)) {
+                    if (currentComp.comp) {
+                        //before element
+                        res.splice(currentComp.index, 0, numeratedAltArray[0]);
+                        console.log("Elem added at position " + currentComp.index + " with parametr " + currentComp.comp);
+                    } else {
+                        //after element
+                        res.splice((currentComp.index + 1), 0, numeratedAltArray[0]);
+                        console.log("Elem added at position " + (currentComp.index + 1) + " with parametr " + currentComp.comp);
+                    }
+                    numeratedAltArray.splice(0, 1);
+                    indexes.length = 0;
             } else {
-                if (currentComp.comp) {
-                    //before element
-                    res.splice(currentComp.index, 0, numeratedAltArray[0]);
-                } else {
-                    //after element
-                    res.splice(currentComp.index + 1, 0, numeratedAltArray[0]);
-                }
+                indexes.push(copyObj(currentComp));
             }
-
-            numeratedAltArray.splice(0, 1);
-            indexes.length = 0;
+        } else 
+        {
+            indexes.push(copyObj(currentComp));
+        }
+        
+        if (indexes.length == 0){
             console.log("<>--------------------- End of step " + currentStep + " ---------------------------<>");
             currentStep += 1;
-            if (numeratedAltArray.length != 0){
-                currentComp.index = getCurrentIndex(isBetter);
-                updateAltsWindow(numeratedAltArray[0] ,res[currentComp.index], currentStep, (res.length + numeratedAltArray.length) - 1);
-            } else {
-                //close compare
-                questWindow.classList.add("hide");
-                // output
-                showResult();
-            }
+        }
+        
+        if (numeratedAltArray.length != 0){
+            var newIndex = getCurrentIndex(isBetter);
+            console.log("ELEMENT INDEX FOR COMPARE: " + newIndex);
+            updateAltsWindow(numeratedAltArray[0] ,res[newIndex], currentStep, (res.length + numeratedAltArray.length) - 1);
         } else {
-            indexes.push(currentComp);
-            currentComp.index = getCurrentIndex(isBetter);
-            console.log("ELEMENT INDEX FOR COMPARE: " + currentComp.index);
-            updateAltsWindow(numeratedAltArray[0] ,res[currentComp.index], currentStep, (res.length + numeratedAltArray.length) - 1);
+            //close compare
+            questWindow.classList.add("hide");
+            // output
+            showResult();
         }
         console.log('результирующее множество: ')
         console.log("Current (maybe) RES array state: ");
@@ -336,6 +355,13 @@ function cleanResult() {
     }
 }
 
+function copyObj(object){
+    var cloneObj = {};
+    for (var key in object) {
+        cloneObj[key] = object[key];
+      }
+    return cloneObj;
+}
 
 // -----------------------------------------------------------------------------------------
 function modp(a, b) {
