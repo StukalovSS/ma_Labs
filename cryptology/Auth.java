@@ -16,10 +16,10 @@ public class Auth {
         long modpOne = modp(1, p);
         long tempVal = pow(q, k);
 
-        while (tempVal*y != modpOne) {
-            tempVal = tempVal*g;
-            k += 1; 
-        }
+        // while (tempVal*y != modpOne) {
+        //     tempVal = tempVal*g;
+        //     k += 1; 
+        // }
         System.out.println("K: " + k);
 
         for (long i = 0; i < itr; i++) {
